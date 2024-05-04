@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      */
@@ -43,6 +44,7 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
+        Gate::authorize('update', $task);
         $task->update($request->validated());
 
         return TaskResource::make($task);
@@ -53,6 +55,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+        Gate::authorize('delete', $task);
         $task->delete();
         return response()->noContent();
     }
